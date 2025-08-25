@@ -1,1 +1,189 @@
-hello world
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Träffa.se - Under Uppbyggnad</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        max-width: 600px;
+        width: 90%;
+      }
+
+      .construction-icon {
+        font-size: 8rem;
+        margin-bottom: 2rem;
+        animation: bounce 2s infinite;
+      }
+
+      .main-title {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        opacity: 0.8;
+      }
+
+      .progress-bar {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        padding: 3px;
+        margin: 2rem 0;
+      }
+
+      .progress-fill {
+        background: linear-gradient(90deg, #ff6b6b, #feca57);
+        height: 20px;
+        border-radius: 22px;
+        width: 65%;
+        animation: pulse 2s ease-in-out infinite alternate;
+      }
+
+      .tools {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        font-size: 2rem;
+      }
+
+      .tool {
+        animation: rotate 3s linear infinite;
+      }
+
+      .coming-soon {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #feca57;
+        margin-top: 2rem;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+        }
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .footer {
+        margin-top: 3rem;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      @media (max-width: 768px) {
+        .main-title {
+          font-size: 2.5rem;
+        }
+        .subtitle {
+          font-size: 1.2rem;
+        }
+        .construction-icon {
+          font-size: 6rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .main-title {
+          font-size: 2rem;
+        }
+        .subtitle {
+          font-size: 1rem;
+        }
+        .construction-icon {
+          font-size: 4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="construction-icon">🚧</div>
+
+      <h1 class="main-title">Träffa.se</h1>
+      <h2 class="subtitle">är under uppbyggnad</h2>
+
+      <p class="description">
+        Vi arbetar hårt för att skapa den bästa dejtingupplevelsen för dig.
+        Snart kommer du att kunna träffa fantastiska människor här!
+      </p>
+
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+
+      <div class="tools">
+        <span class="tool">⚙️</span>
+        <span class="tool">🔨</span>
+        <span class="tool">⚙️</span>
+      </div>
+
+      <div class="coming-soon">Kommer snart...</div>
+
+      <div class="footer">
+        <p>Tack för ditt tålamod medan vi bygger något fantastiskt!(2025-08-25)</p>
+      </div>
+    </div>
+  </body>
+</html>
