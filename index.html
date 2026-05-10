@@ -9,7 +9,7 @@
 
   body {
     min-height: 100vh;
-    background: #0a0010;
+    background: #1a0f2e;
     font-family: 'Georgia', serif;
     color: #fff;
     overflow: hidden;
@@ -38,7 +38,7 @@
     font-size: 1rem;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: #e070f0;
+    color: #A58BC4;
     margin-bottom: 2.5rem;
     opacity: 0;
     animation: fadeUp 1s ease 0.3s forwards;
@@ -48,7 +48,7 @@
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 400;
     line-height: 1.15;
-    background: linear-gradient(135deg, #fff 30%, #d090ff);
+    background: linear-gradient(135deg, #fff 30%, #8B6DB8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -70,7 +70,7 @@
     font-size: clamp(3rem, 10vw, 7rem);
     font-weight: 700;
     font-family: 'Courier New', monospace;
-    background: linear-gradient(180deg, #fff, #b060e8);
+    background: linear-gradient(180deg, #fff, #6A4C93);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -141,7 +141,7 @@ for (let i = 0; i < 40; i++) {
 function drawHeart(ctx, x, y, size, alpha) {
   ctx.save();
   ctx.globalAlpha = alpha;
-  ctx.fillStyle = `hsl(${280 + Math.random()*40}, 70%, 75%)`;
+  ctx.fillStyle = `hsl(${265 + Math.random()*20}, 45%, 60%)`;  // amethyst
   ctx.beginPath();
   const s = size * 0.5;
   ctx.moveTo(x, y + s * 0.5);
