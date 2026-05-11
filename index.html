@@ -15,21 +15,11 @@
 
   /* Design tokens */
   :root {
-    --purple-300: #A87FDE;
-    --purple-400: #8B5FC2;
-    --purple-500: #6A4C93;
-    --purple-600: #523A70;
-    --purple-700: #3B2850;
     --bg:               #111111;
     --bg-glow:          rgba(106, 76, 147, 0.22);
-    --text-muted:       rgba(255, 255, 255, 0.22);
-    --logo-color:       rgba(255, 255, 255, 0.16);
-    --logo-shadow:      #A87FDE;
-    --typewriter-color: rgba(255, 255, 255, 0.85);
-    --cursor-color:     #A87FDE;
-    --pill-bg:          rgba(255, 255, 255, 0.06);
-    --pill-border:      rgba(255, 255, 255, 0.14);
-    --pill-text:        rgba(255, 255, 255, 0.55);
+    --logo-from:        #FFFFFF;
+    --logo-to:          #8B5FC2;
+    --phrase-color:     rgba(255, 255, 255, 0.82);
   }
 
   /* Light mode overrides */
@@ -37,14 +27,9 @@
     :root {
       --bg:               #F3EEFF;
       --bg-glow:          rgba(106, 76, 147, 0.13);
-      --text-muted:       rgba(58, 30, 90, 0.38);
-      --logo-color:       rgba(58, 30, 90, 0.18);
-      --logo-shadow:      #6A4C93;
-      --typewriter-color: #3B2850;
-      --cursor-color:     #6A4C93;
-      --pill-bg:          rgba(106, 76, 147, 0.08);
-      --pill-border:      rgba(106, 76, 147, 0.22);
-      --pill-text:        #523A70;
+      --logo-from:        #1E1228;
+      --logo-to:          #6A4C93;
+      --phrase-color:     #3B2850;
     }
   }
 
@@ -55,8 +40,8 @@
   body {
     min-height: 100vh;
     background: var(--bg);
-    font-family: 'DreamingOutloud', Georgia, serif;
-    color: var(--typewriter-color);
+    font-family: Georgia, serif;
+    color: var(--phrase-color);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -93,19 +78,21 @@
   }
 
   .logo {
-    font-family: 'DreamingOutloud', Georgia, serif;
-    font-size: 3.2rem;
-    font-weight: normal;
-    letter-spacing: 0.06em;
-    color: var(--logo-color);
-    text-shadow: 0 0 1px var(--logo-shadow);
+    font-family: Georgia, serif;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--logo-from) 35%, var(--logo-to));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: 2.5rem;
     opacity: 0;
     animation: fadeUp 1s ease 0.3s forwards;
-    transition: color 0.4s, text-shadow 0.4s;
   }
 
-  .typewriter-wrap {
+  .phrase-wrap {
     min-height: 3rem;
     display: flex;
     align-items: center;
@@ -113,70 +100,14 @@
     margin-bottom: 2.4rem;
   }
 
-  .typewriter-text {
+  .phrase {
     font-family: Georgia, serif;
     font-size: clamp(1.2rem, 3vw, 1.6rem);
     font-style: italic;
     font-weight: normal;
-    color: var(--typewriter-color);
+    color: var(--phrase-color);
     letter-spacing: 0.03em;
     opacity: 0;
-    animation: fadeUp 1s ease 0.6s forwards;
-    transition: color 0.4s;
-  }
-
-  .cursor {
-    display: inline-block;
-    color: var(--cursor-color);
-    font-weight: 300;
-    animation: blink 1s step-end infinite;
-    transition: color 0.4s;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 18px;
-    border-radius: 9999px;
-    background: var(--pill-bg);
-    border: 1px solid var(--pill-border);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--pill-text);
-    margin-bottom: 1.6rem;
-    opacity: 0;
-    animation: fadeUp 1s ease 1.2s forwards;
-    transition: background 0.4s, border-color 0.4s, color 0.4s;
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--purple-400);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.45; transform: scale(0.65); }
-  }
-
-  .tagline {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    opacity: 0;
-    animation: fadeUp 1s ease 1.5s forwards;
     transition: color 0.4s;
   }
 
@@ -192,52 +123,43 @@
 <div class="content">
   <div class="logo">Tr&#228;ffas</div>
 
-  <div class="typewriter-wrap">
-    <span class="typewriter-text"><span id="tw"></span><span class="cursor">|</span></span>
+  <div class="phrase-wrap">
+    <p class="phrase" id="phrase"></p>
   </div>
 
-  <div class="status-pill">
-    <span class="status-dot"></span>
-    Under utveckling
-  </div>
-
-  <p class="tagline">Tr&#228;ffas &mdash; hitta din match</p>
 </div>
 
 <script>
-const SEQUENCES   = [
+// Pulsing phrase cycle — text swaps at the bottom of each blink
+const PHRASES  = [
   'K\u00e4rlek b\u00f6rjar med ett m\u00f6te',
-  'En ny dejtingupplevelse \u00f6ppnar snart sina d\u00f6rrar.',
-  '2026',
+  'Hitta din match \u2014 2026',
 ];
-const CHAR_SPEED  = 55;
-const ERASE_SPEED = 30;
-const PAUSE_AFTER = 3500;
-const PAUSE_BW    = 800;
+const CYCLE_MS = 3200; // duration of one full blink
 
-const tw = document.getElementById('tw');
-let seqIndex = 0;
+const phraseEl = document.getElementById('phrase');
+let phraseIndex = 0;
+let pStart = null;
 
-function type(text, pos) {
-  if (pos <= text.length) {
-    tw.textContent = text.slice(0, pos);
-    setTimeout(() => type(text, pos + 1), CHAR_SPEED);
-  } else {
-    setTimeout(() => erase(text, text.length), PAUSE_AFTER);
-  }
+function pulse(ts) {
+  if (!pStart) pStart = ts;
+  const t = ((ts - pStart) % CYCLE_MS) / CYCLE_MS;
+  // Cosine wave: bright at t=0 & t=1, dark at t=0.5
+  phraseEl.style.opacity = 0.5 + 0.38 * Math.cos(2 * Math.PI * t);
+  requestAnimationFrame(pulse);
 }
 
-function erase(text, pos) {
-  if (pos >= 0) {
-    tw.textContent = text.slice(0, pos);
-    setTimeout(() => erase(text, pos - 1), ERASE_SPEED);
-  } else {
-    seqIndex = (seqIndex + 1) % SEQUENCES.length;
-    setTimeout(() => type(SEQUENCES[seqIndex], 0), PAUSE_BW);
-  }
-}
+setTimeout(() => {
+  phraseEl.textContent = PHRASES[phraseIndex];
+  requestAnimationFrame(pulse);
 
-setTimeout(() => type(SEQUENCES[0], 0), 1000);
+  // Swap text at each trough (half-cycle), then every full cycle
+  setTimeout(function swapText() {
+    phraseIndex = (phraseIndex + 1) % PHRASES.length;
+    phraseEl.textContent = PHRASES[phraseIndex];
+    setTimeout(swapText, CYCLE_MS);
+  }, CYCLE_MS / 2);
+}, 800);
 
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
