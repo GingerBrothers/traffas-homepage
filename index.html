@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Traffas - Snart har</title>
+<title>Tr&#228;ffas.se &#8212; Snart h&#228;r</title>
 <style>
+  /* Custom font */
   @font-face {
     font-family: 'DreamingOutloud';
     src: url('fonts/dreaming-outloud-pro-regular.otf') format('opentype');
@@ -12,18 +13,68 @@
     font-style: normal;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Design tokens */
+  :root {
+    --purple-300: #A87FDE;
+    --purple-400: #8B5FC2;
+    --purple-500: #6A4C93;
+    --purple-600: #523A70;
+    --purple-700: #3B2850;
+    --bg:               #111111;
+    --bg-glow:          rgba(106, 76, 147, 0.22);
+    --text-muted:       rgba(255, 255, 255, 0.22);
+    --logo-color:       rgba(255, 255, 255, 0.16);
+    --logo-shadow:      #A87FDE;
+    --typewriter-color: rgba(255, 255, 255, 0.85);
+    --cursor-color:     #A87FDE;
+    --pill-bg:          rgba(255, 255, 255, 0.06);
+    --pill-border:      rgba(255, 255, 255, 0.14);
+    --pill-text:        rgba(255, 255, 255, 0.55);
+  }
+
+  /* Light mode overrides */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:               #F3EEFF;
+      --bg-glow:          rgba(106, 76, 147, 0.13);
+      --text-muted:       rgba(58, 30, 90, 0.38);
+      --logo-color:       rgba(58, 30, 90, 0.18);
+      --logo-shadow:      #6A4C93;
+      --typewriter-color: #3B2850;
+      --cursor-color:     #6A4C93;
+      --pill-bg:          rgba(106, 76, 147, 0.08);
+      --pill-border:      rgba(106, 76, 147, 0.22);
+      --pill-text:        #523A70;
+    }
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { height: 100%; }
 
   body {
     min-height: 100vh;
-    background: #1a0f2e;
+    background: var(--bg);
     font-family: 'DreamingOutloud', Georgia, serif;
-    color: #fff;
+    color: var(--typewriter-color);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 90vw);
+    height: min(700px, 90vw);
+    background: radial-gradient(ellipse, var(--bg-glow) 0%, transparent 68%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   canvas {
@@ -45,13 +96,13 @@
     font-family: 'DreamingOutloud', Georgia, serif;
     font-size: 3.2rem;
     font-weight: normal;
-    font-style: normal;
     letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.15);
-    text-shadow: 0 0 1px #A58BC4;
+    color: var(--logo-color);
+    text-shadow: 0 0 1px var(--logo-shadow);
     margin-bottom: 2.5rem;
     opacity: 0;
     animation: fadeUp 1s ease 0.3s forwards;
+    transition: color 0.4s, text-shadow 0.4s;
   }
 
   .typewriter-wrap {
@@ -59,6 +110,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2.4rem;
   }
 
   .typewriter-text {
@@ -66,26 +118,70 @@
     font-size: clamp(1.2rem, 3vw, 1.6rem);
     font-style: italic;
     font-weight: normal;
-    color: rgba(255,255,255,0.85);
+    color: var(--typewriter-color);
     letter-spacing: 0.03em;
     opacity: 0;
     animation: fadeUp 1s ease 0.6s forwards;
+    transition: color 0.4s;
   }
 
   .cursor {
     display: inline-block;
-    color: #A58BC4;
+    color: var(--cursor-color);
     font-weight: 300;
     animation: blink 1s step-end infinite;
+    transition: color 0.4s;
   }
 
   @keyframes blink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+    50%       { opacity: 0; }
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pill-text);
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.2s forwards;
+    transition: background 0.4s, border-color 0.4s, color 0.4s;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--purple-400);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.45; transform: scale(0.65); }
+  }
+
+  .tagline {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.5s forwards;
+    transition: color 0.4s;
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 </style>
@@ -95,21 +191,29 @@
 
 <div class="content">
   <div class="logo">Tr&#228;ffas</div>
+
   <div class="typewriter-wrap">
     <span class="typewriter-text"><span id="tw"></span><span class="cursor">|</span></span>
   </div>
+
+  <div class="status-pill">
+    <span class="status-dot"></span>
+    Under utveckling
+  </div>
+
+  <p class="tagline">Tr&#228;ffas &mdash; hitta din match</p>
 </div>
 
 <script>
-const SEQUENCES = [
+const SEQUENCES   = [
   'K\u00e4rlek b\u00f6rjar med ett m\u00f6te',
   'En ny dejtingupplevelse \u00f6ppnar snart sina d\u00f6rrar.',
   '2026',
 ];
-const CHAR_SPEED = 55;
+const CHAR_SPEED  = 55;
 const ERASE_SPEED = 30;
 const PAUSE_AFTER = 3500;
-const PAUSE_BETWEEN = 800;
+const PAUSE_BW    = 800;
 
 const tw = document.getElementById('tw');
 let seqIndex = 0;
@@ -129,15 +233,30 @@ function erase(text, pos) {
     setTimeout(() => erase(text, pos - 1), ERASE_SPEED);
   } else {
     seqIndex = (seqIndex + 1) % SEQUENCES.length;
-    setTimeout(() => type(SEQUENCES[seqIndex], 0), PAUSE_BETWEEN);
+    setTimeout(() => type(SEQUENCES[seqIndex], 0), PAUSE_BW);
   }
 }
 
 setTimeout(() => type(SEQUENCES[0], 0), 1000);
 
 const canvas = document.getElementById('c');
-const ctx = canvas.getContext('2d');
+const ctx    = canvas.getContext('2d');
 let W, H, particles = [];
+
+function isLight() {
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
+function heartColor() {
+  const h = 265 + Math.random() * 20;
+  return isLight()
+    ? 'hsl(' + h + ', 55%, 52%)'
+    : 'hsl(' + h + ', 45%, 60%)';
+}
+
+function maxAlpha() {
+  return isLight() ? 0.18 : 0.30;
+}
 
 function resize() {
   W = canvas.width  = window.innerWidth;
@@ -148,13 +267,13 @@ window.addEventListener('resize', resize);
 
 function randomHeart() {
   return {
-    x: Math.random() * W,
-    y: H + 20,
-    size: 6 + Math.random() * 14,
-    speed: 0.4 + Math.random() * 0.8,
-    alpha: 0.1 + Math.random() * 0.35,
-    drift: (Math.random() - 0.5) * 0.4,
-    wobble: Math.random() * Math.PI * 2,
+    x:           Math.random() * W,
+    y:           H + 20,
+    size:        6 + Math.random() * 14,
+    speed:       0.4 + Math.random() * 0.8,
+    alpha:       0.06 + Math.random() * maxAlpha(),
+    drift:       (Math.random() - 0.5) * 0.4,
+    wobble:      Math.random() * Math.PI * 2,
     wobbleSpeed: 0.01 + Math.random() * 0.02,
   };
 }
@@ -165,33 +284,37 @@ for (let i = 0; i < 40; i++) {
   particles.push(p);
 }
 
-function drawHeart(ctx, x, y, size, alpha) {
+function drawHeart(x, y, size, alpha) {
   ctx.save();
   ctx.globalAlpha = alpha;
-  ctx.fillStyle = 'hsl(' + (265 + Math.random()*20) + ', 45%, 60%)';
+  ctx.fillStyle   = heartColor();
   ctx.beginPath();
   const s = size * 0.5;
   ctx.moveTo(x, y + s * 0.5);
-  ctx.bezierCurveTo(x, y, x - s, y, x - s, y - s * 0.5);
-  ctx.bezierCurveTo(x - s, y - s * 1.2, x, y - s * 1.2, x, y - s * 0.5);
-  ctx.bezierCurveTo(x, y - s * 1.2, x + s, y - s * 1.2, x + s, y - s * 0.5);
-  ctx.bezierCurveTo(x + s, y, x, y, x, y + s * 0.5);
+  ctx.bezierCurveTo(x, y,               x - s, y,           x - s, y - s * 0.5);
+  ctx.bezierCurveTo(x - s, y - s * 1.2, x,     y - s * 1.2, x,     y - s * 0.5);
+  ctx.bezierCurveTo(x,     y - s * 1.2, x + s, y - s * 1.2, x + s, y - s * 0.5);
+  ctx.bezierCurveTo(x + s, y,           x,     y,            x,     y + s * 0.5);
   ctx.fill();
   ctx.restore();
 }
 
 function animate() {
   ctx.clearRect(0, 0, W, H);
-  for (let p of particles) {
-    p.y -= p.speed;
+  for (const p of particles) {
+    p.y      -= p.speed;
     p.wobble += p.wobbleSpeed;
-    p.x += p.drift + Math.sin(p.wobble) * 0.3;
-    drawHeart(ctx, p.x, p.y, p.size, p.alpha);
+    p.x      += p.drift + Math.sin(p.wobble) * 0.3;
+    drawHeart(p.x, p.y, p.size, p.alpha);
     if (p.y < -30) Object.assign(p, randomHeart());
   }
   requestAnimationFrame(animate);
 }
 animate();
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+  particles.forEach(p => { p.alpha = 0.06 + Math.random() * maxAlpha(); });
+});
 </script>
 </body>
 </html>
