@@ -1,190 +1,242 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Träffas.se - Under Uppbyggnad</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tr&#228;ffas.se &#8212; Snart h&#228;r</title>
+<style>
+  /* Custom font */
+  @font-face {
+    font-family: 'DreamingOutloud';
+    src: url('fonts/dreaming-outloud-pro-regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
-      body {
-        font-family: "Arial", sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-      }
+  /* Design tokens */
+  :root {
+    --bg:               #111111;
+    --bg-glow:          rgba(106, 76, 147, 0.22);
+    --logo-from:        #FFFFFF;
+    --logo-to:          #8B5FC2;
+    --phrase-color:     rgba(255, 255, 255, 0.82);
+  }
 
-      .container {
-        text-align: center;
-        padding: 2rem;
-        max-width: 600px;
-        width: 90%;
-      }
+  /* Light mode overrides */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:               #F3EEFF;
+      --bg-glow:          rgba(106, 76, 147, 0.13);
+      --logo-from:        #1E1228;
+      --logo-to:          #6A4C93;
+      --phrase-color:     #3B2850;
+    }
+  }
 
-      .construction-icon {
-        font-size: 8rem;
-        margin-bottom: 2rem;
-        animation: bounce 2s infinite;
-      }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-      .main-title {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      }
+  html { height: 100%; }
 
-      .subtitle {
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-        opacity: 0.9;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-      }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: Georgia, serif;
+    color: var(--phrase-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.4s, color 0.4s;
+  }
 
-      .description {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-        opacity: 0.8;
-      }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 90vw);
+    height: min(700px, 90vw);
+    background: radial-gradient(ellipse, var(--bg-glow) 0%, transparent 68%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-      .progress-bar {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 25px;
-        padding: 3px;
-        margin: 2rem 0;
-      }
+  canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
 
-      .progress-fill {
-        background: linear-gradient(90deg, #ff6b6b, #feca57);
-        height: 20px;
-        border-radius: 22px;
-        width: 65%;
-        animation: pulse 2s ease-in-out infinite alternate;
-      }
+  .content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 700px;
+    padding: 2rem;
+  }
 
-      .tools {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin: 2rem 0;
-        font-size: 2rem;
-      }
+  .logo {
+    font-family: Georgia, serif;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--logo-from) 35%, var(--logo-to));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
 
-      .tool {
-        animation: rotate 3s linear infinite;
-      }
+  .phrase-wrap {
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.4rem;
+  }
 
-      .coming-soon {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #feca57;
-        margin-top: 2rem;
-      }
+  .phrase {
+    font-family: Georgia, serif;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-style: italic;
+    font-weight: normal;
+    color: var(--phrase-color);
+    letter-spacing: 0.03em;
+    opacity: 0;
+    transition: color 0.4s;
+  }
 
-      @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-          transform: translateY(0);
-        }
-        40% {
-          transform: translateY(-20px);
-        }
-        60% {
-          transform: translateY(-10px);
-        }
-      }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
 
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 10px rgba(255, 107, 107, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
-        }
-      }
+<div class="content">
+  <div class="logo">Tr&#228;ffas</div>
 
-      @keyframes rotate {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
+  <div class="phrase-wrap">
+    <p class="phrase" id="phrase"></p>
+  </div>
 
-      .footer {
-        margin-top: 3rem;
-        font-size: 0.9rem;
-        opacity: 0.7;
-      }
+</div>
 
-      @media (max-width: 768px) {
-        .main-title {
-          font-size: 2.5rem;
-        }
-        .subtitle {
-          font-size: 1.2rem;
-        }
-        .construction-icon {
-          font-size: 6rem;
-        }
-      }
+<script>
+// Pulsing phrase cycle — text swaps at the bottom of each blink
+const PHRASES  = [
+  'K\u00e4rlek b\u00f6rjar med ett m\u00f6te',
+  'Hitta din match \u2014 2026',
+];
+const CYCLE_MS = 3200; // duration of one full blink
 
-      @media (max-width: 480px) {
-        .main-title {
-          font-size: 2rem;
-        }
-        .subtitle {
-          font-size: 1rem;
-        }
-        .construction-icon {
-          font-size: 4rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="construction-icon">🚧</div>
+const phraseEl = document.getElementById('phrase');
+let phraseIndex = 0;
+let pStart = null;
 
-      <h1 class="main-title">Träffas.se</h1>
-      <h2 class="subtitle">är under uppbyggnad</h2>
+function pulse(ts) {
+  if (!pStart) pStart = ts;
+  const t = ((ts - pStart) % CYCLE_MS) / CYCLE_MS;
+  // Cosine wave: bright at t=0 & t=1, dark at t=0.5
+  phraseEl.style.opacity = 0.5 + 0.38 * Math.cos(2 * Math.PI * t);
+  requestAnimationFrame(pulse);
+}
 
-      <p class="description">
-        Vi arbetar hårt för att skapa den bästa dejtingupplevelsen för dig.
-        Snart kommer du att kunna träffa fantastiska människor här!
-      </p>
+setTimeout(() => {
+  phraseEl.textContent = PHRASES[phraseIndex];
+  requestAnimationFrame(pulse);
 
-      <div class="progress-bar">
-        <div class="progress-fill"></div>
-      </div>
+  // Swap text at each trough (half-cycle), then every full cycle
+  setTimeout(function swapText() {
+    phraseIndex = (phraseIndex + 1) % PHRASES.length;
+    phraseEl.textContent = PHRASES[phraseIndex];
+    setTimeout(swapText, CYCLE_MS);
+  }, CYCLE_MS / 2);
+}, 800);
 
-      <div class="tools">
-        <span class="tool">⚙️</span>
-        <span class="tool">🔨</span>
-        <span class="tool">⚙️</span>
-      </div>
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+let W, H, particles = [];
 
-      <div class="coming-soon">Kommer snart...</div>
+function isLight() {
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
 
-      <div class="footer">
-        <p>Tack för ditt tålamod medan vi bygger något fantastiskt! (2025-08-25)</p>
-        <p>Hälsningar, Johan och Ludwig</p>
-      </div>
-    </div>
-  </body>
+function heartColor() {
+  const h = 265 + Math.random() * 20;
+  return isLight()
+    ? 'hsl(' + h + ', 55%, 52%)'
+    : 'hsl(' + h + ', 45%, 60%)';
+}
+
+function maxAlpha() {
+  return isLight() ? 0.18 : 0.30;
+}
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function randomHeart() {
+  return {
+    x:           Math.random() * W,
+    y:           H + 20,
+    size:        6 + Math.random() * 14,
+    speed:       0.4 + Math.random() * 0.8,
+    alpha:       0.06 + Math.random() * maxAlpha(),
+    drift:       (Math.random() - 0.5) * 0.4,
+    wobble:      Math.random() * Math.PI * 2,
+    wobbleSpeed: 0.01 + Math.random() * 0.02,
+  };
+}
+
+for (let i = 0; i < 40; i++) {
+  const p = randomHeart();
+  p.y = Math.random() * H;
+  particles.push(p);
+}
+
+function drawHeart(x, y, size, alpha) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle   = heartColor();
+  ctx.beginPath();
+  const s = size * 0.5;
+  ctx.moveTo(x, y + s * 0.5);
+  ctx.bezierCurveTo(x, y,               x - s, y,           x - s, y - s * 0.5);
+  ctx.bezierCurveTo(x - s, y - s * 1.2, x,     y - s * 1.2, x,     y - s * 0.5);
+  ctx.bezierCurveTo(x,     y - s * 1.2, x + s, y - s * 1.2, x + s, y - s * 0.5);
+  ctx.bezierCurveTo(x + s, y,           x,     y,            x,     y + s * 0.5);
+  ctx.fill();
+  ctx.restore();
+}
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of particles) {
+    p.y      -= p.speed;
+    p.wobble += p.wobbleSpeed;
+    p.x      += p.drift + Math.sin(p.wobble) * 0.3;
+    drawHeart(p.x, p.y, p.size, p.alpha);
+    if (p.y < -30) Object.assign(p, randomHeart());
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+  particles.forEach(p => { p.alpha = 0.06 + Math.random() * maxAlpha(); });
+});
+</script>
+</body>
 </html>
